@@ -38,7 +38,11 @@
         {
             "name": "comms",
             "version": "pre-release"
-        }
+        },
+        {
+            "name": "comms_dev_db",
+            "version": "pre-release"
+        }  
     // If I need to add other module, add new dict as below
         // {
         //    "name": "wfm",
