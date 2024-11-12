@@ -1,4 +1,5 @@
-ARG CONTAINER_REGISTRY=harbor.delivery.iqgeo.cloud/releases/
+
+ARG CONTAINER_REGISTRY=iqgeoproddev.azurecr.io/releases/
 
 FROM iqgeo-myproj-build AS iqgeo_builder
 

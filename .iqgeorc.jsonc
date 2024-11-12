@@ -37,8 +37,13 @@
         },
         {
             "name": "comms",
-            "version": "3.2"
+            "version": "pre-release"
         }
+    // If I need to add other module, add new dict as below
+        // {
+        //    "name": "wfm",
+        //     "version": "pre-release" 
+        // }
     ],
 
     // (relative) path of files to exclude from pulling and updating
