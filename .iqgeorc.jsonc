@@ -42,7 +42,16 @@
         {
             "name": "comms_dev_db",
             "version": "pre-release"
-        }  
+        },
+        {
+            "name": "comsof",
+            "version": "latest"
+        },
+        {
+            "name": "dev_tools",
+            "version": "latest",
+            "dbInit": false
+        } 
     // If I need to add other module, add new dict as below
         // {
         //    "name": "wfm",
