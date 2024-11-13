@@ -29,15 +29,68 @@ COPY --chown=www-data:www-data --from=iqgeo_builder /opt/iqgeo/platform/External
 # START SECTION Copy modules  - if you edit these lines manually note that your change will get lost if you run the IQGeo Project Update tool
 COPY --chown=www-data:www-data --from=iqgeo_builder ${MODULES}/custom/ ${MODULES}/custom/
 COPY --chown=www-data:www-data --from=iqgeo_builder ${MODULES}/comms/ ${MODULES}/comms/
+COPY --chown=www-data:www-data --from=iqgeo_builder ${MODULES}/comms_dev_db/ ${MODULES}/comms_dev_db/
+COPY --chown=www-data:www-data --from=iqgeo_builder ${MODULES}/comsof/ ${MODULES}/comsof/
+COPY --chown=www-data:www-data --from=iqgeo_builder ${MODULES}/dev_tools/ ${MODULES}/dev_tools/
 # END SECTION
 
 # START CUSTOM SECTION
+
+RUN apt-get update \
+    && apt-get install -y vim dos2unix \
+    && apt-get autoremove && apt-get clean
+
 # END CUSTOM SECTION
 
 
 # Copy in generated bundles
 COPY --chown=www-data:www-data --from=iqgeo_builder ${WEBAPPS}/myworldapp/public ${WEBAPPS}/myworldapp/public/
 
+# ADD MODULE ENVIRONMENT VARIABLES
+ENV IQGEO_MODULES=${MODULES}
+ENV IQG_MODULES_DIR="${MODULES}"
+
+ENV MYW_DEV_DB_DATA=${MODULES}/dev_db/data
+
+ENV IQG_COMMS_DIR="${MODULES}/comms"
+ENV IQG_COMMS_DEV_DB_DIR="${MODULES}/comms_dev_db"
+ENV IQG_COMSOF_DIR="${MODULES}/comsof"
+ENV IQG_COMSOF_DEV_DB_DIR="${MODULES}/comsof_dev_db"
+ENV IQG_ELEC_DIR="${MODULES}/electric"
+ENV IQG_ELEC_DEV_DB_DIR="${MODULES}/electric_dev_db"
+ENV IQG_GAS_DIR="${MODULES}/gas"
+ENV IQG_GAS_DEV_DB_DIR="${MODULES}/gas_dev_db"
+
+ENV IQG_NRO_DIR="${MODULES}/network_revenue_optimizer"
+ENV NRO_DEV_DB_DIR="${MODULES}/network_revenue_optimizer_dev_db"
+ENV IQG_IS_DIR="${MODULES}/survey"
+ENV IQG_IS_DEV_DB_DIR="${MODULES}/survey_dev_db"
+ENV IQG_IS_TILESTORE_DIR="/opt/myworld_data/tiles"
+ENV IQG_WFM_DIR="${MODULES}/workflow_manager"
+ENV IQG_WFM_DEV_DB_DIR="${MODULES}/workflow_manager_dev_db"
+
+# ADD MODULE tools to PATH
+ENV PATH="${IQGEO_BASE}:${PATH}"
+ENV PATH="${IQG_COMMS_DIR}/tools:${PATH}"
+ENV PATH="${IQG_COMMS_DEV_DB_DIR}/build:${PATH}"
+ENV PATH="${IQG_COMMS_DEV_DB_DIR}/tools:${PATH}"
+ENV PATH="${IQG_COMMS_DEV_DB_DIR}/utils/comsof:${PATH}"
+ENV PATH="${IQG_COMMS_DEV_DB_DIR}/utils:${PATH}"
+ENV PATH="${IQG_COMSOF_DEV_DB_DIR}/build:${PATH}"
+ENV PATH="${IQG_COMSOF_DEV_DB_DIR}/utils:${PATH}"
+ENV PATH="${IQG_COMSOF_DIR}/tools:${PATH}"
+ENV PATH="${IQG_ELEC_DIR}/tools:${PATH}"
+ENV PATH="${IQG_GAS_DIR}/tools:${PATH}"
+ENV PATH="${IQG_NRO_DIR}/tools:${PATH}"
+ENV PATH="${NRO_DEV_DB_DIR}/utils:${PATH}"
+ENV PATH="${IQG_IS_DIR}/tools:${PATH}"
+ENV PATH="${IQG_IS_DEV_DB_DIR}/utils:${PATH}"
+ENV PATH="${IQG_WFM_DIR}/tools:${PATH}"
+ENV PATH="${IQG_WFM_DEV_DB_DIR}/tests/client:${PATH}"
+ENV PATH="${IQG_WFM_DEV_DB_DIR}/tests/js:${PATH}"
+ENV PATH="${IQG_WFM_DEV_DB_DIR}/tests/server:${PATH}"
+ENV PATH="${IQG_WFM_DEV_DB_DIR}/tests/tools:${PATH}"
+ENV PATH="${IQG_WFM_DEV_DB_DIR}/utils:${PATH}"
 
 USER www-data
 
@@ -45,4 +98,4 @@ USER www-data
 # add additional entrypoint scripts (build db, ...)
 COPY --chown=www-data:www-data entrypoint.d/* /entrypoint.d/
 
-COPY --chown=www-data:www-data appserver_config/ /opt/iqgeo/config/
+# COPY --chown=www-data:www-data appserver_config/ /opt/iqgeo/config/
