@@ -7,6 +7,9 @@ ARG CONTAINER_REGISTRY=harbor.delivery.iqgeo.cloud/releases/
 
 # START SECTION Aliases for Injector images - beware this section is updated by the IQGeo project configuration tool
 FROM ${CONTAINER_REGISTRY}comms:pre-release AS comms
+FROM ${CONTAINER_REGISTRY}comms_dev_db:pre-release AS comms_dev_db
+FROM ${CONTAINER_REGISTRY}comsof:latest AS comsof
+FROM ${CONTAINER_REGISTRY}dev_tools:latest AS dev_tools
 # END SECTION
 
 
@@ -24,6 +27,9 @@ RUN pip install cryptojwt
 
 # START SECTION Copy the modules - beware this section is updated by the IQGeo project configuration tool
 COPY --link --from=comms / ${MODULES}/
+COPY --link --from=comms_dev_db / ${MODULES}/
+COPY --link --from=comsof / ${MODULES}/
+COPY --link --from=dev_tools / ${MODULES}/
 # END SECTION
 
 

@@ -11,6 +11,9 @@ node_modules
 
 # START SECTION Product modules
 /comms
+/comms_dev_db
+/comsof
+/dev_tools
 /dev_tools
 # END SECTION
 
